@@ -14,7 +14,7 @@ import '../styles/global.css'
   <div class='container'>
     <div class='intro'>
       <div class='intro_icon'>
-        <a href='/' draggable='false'>
+        <a href='#' draggable='false'>
           <h2>THOMAS</h2>
           <h2>PAQUIER</h2>
         </a>
@@ -51,7 +51,7 @@ import '../styles/global.css'
           class='col_icon'
           draggable='false'
         />
-        <h2 class='col_titre'>DRAWING</h2>
+        <h2 class='col_titre'>Gallery</h2>
         <video loop muted>
           <source src={yellowVideo} type='video/mp4' />
         </video>
@@ -161,6 +161,11 @@ import '../styles/global.css'
     color: var(--v2-primary-hover);
     filter: drop-shadow(0 0 20px var(--v2-primary-hover));
   }
+  .intro_icon a:hover {
+    color: var(--v2-secondary);
+    filter: none;
+    cursor:  default;
+  }
   h2 {
     font-family: var(--bigger-font-size);
   }
@@ -233,7 +238,7 @@ import '../styles/global.css'
     flex-direction: column;
     position: absolute;
     padding-left: 160px;
-    top: 18%;
+    top: 16%;
 
     gap: 20px;
   }
