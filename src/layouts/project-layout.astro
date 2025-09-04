@@ -151,6 +151,22 @@ const { Content, ...props } = Astro.props
     </main>
 
     <style define:vars={{ projectImage: `url(${props.imageCouverture})` }}>
+      * {
+    box-sizing: border-box;
+
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -ms-touch-action: none;
+    draggable: none;
+  }
+      .main{
+        width:100vw
+      }
+
       #theme-switch {
         display: flex;
         justify-content: center;
@@ -235,8 +251,8 @@ const { Content, ...props } = Astro.props
 
       .nav-content {
         position: relative;
-        height: 80%;
-        width: 90%;
+        height: 100%;
+        width: 100%;
         color: var(--v2-secondary);
         font-family: aktiv-grotesk, sans-serif;
         font-weight: 600;
@@ -277,7 +293,7 @@ const { Content, ...props } = Astro.props
 
       .nav-content div:nth-child(3) {
         position: absolute;
-        bottom: -30px;
+        bottom: 0px;
         left: 0;
         font-size: 14px;
         letter-spacing: 1.4px;
