@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galerie finale dynamique</title>
+<style>
+  body {
+    margin: 0;
+    background: #111;
+    overflow-x: hidden;
+  }
+
+  #gallery {
+    position: relative;
+    width: 100%;
+    padding:0px 200px; /* padding autour des bords */
+    box-sizing: border-box;
+  }
+
+  #gallery img {
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+    transition: transform 0.3s ease;
+  }
+
+  #gallery img:hover {
+    transform: scale(1.2);
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+<div id="gallery"></div>
+
+<script>
+const gallery = document.getElementById("gallery");
+const paddingX = 200;
+const paddingY = 100;
+const width = window.innerWidth - 2 * paddingX;
+
+// Images source
+const images = [
+  "https://picsum.photos/400/700?random=1",
+  "https://picsum.photos/500/300?random=2",
+  "https://picsum.photos/350/600?random=3",
+  "https://picsum.photos/450/350?random=4",
+  "https://picsum.photos/300/500?random=5",
+  "https://picsum.photos/400/400?random=6",
+  "https://picsum.photos/450/700?random=7",
+  "https://picsum.photos/500/450?random=8",
+  "https://picsum.photos/350/550?random=9",
+  "https://picsum.photos/400/600?random=10"
+];
+
+// Espacement
+const minDistanceX = 150;
+const minDistanceY = 300;
+
+const placedImages = [];
+
+// Collision
+function intersects(x1, y1, w1, h1) {
+  for (let img of placedImages) {
+    const dx = x1 - img.x;
+    const dy = y1 - img.y;
+    if (Math.abs(dx) < (w1/2 + img.w/2 + minDistanceX) &&
+        Math.abs(dy) < (h1/2 + img.h/2 + minDistanceY)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Précharger les images pour avoir dimensions
+function preloadImages(sources) {
+  return Promise.all(sources.map(src => {
+    return new Promise(resolve => {
+      const temp = new Image();
+      temp.src = src;
+      temp.onload = () => {
+        const ratio = temp.naturalHeight / temp.naturalWidth;
+        let w;
+
+        if (temp.naturalWidth > temp.naturalHeight) {
+          w = Math.random() * (500 - 350) + 400; // paysage
+        } else {
+          w = Math.random() * (650 - 250) + 250; // portrait
+        }
+
+        const h = w * ratio;
+        resolve({src, w, h});
+      };
+    });
+  }));
+}
+
+function placeImage(data, containerHeight) {
+  const img = document.createElement("img");
+  img.src = data.src;
+  img.style.width = `${data.w}px`;
+  img.style.height = `${data.h}px`;
+
+  let tries = 0;
+  let x, y;
+  do {
+    x = paddingX + Math.random() * (width - data.w);
+    y = paddingY + Math.random() * (containerHeight - data.h);
+    tries++;
+    if (tries > 1000) break;
+  } while (intersects(x + data.w/2, y + data.h/2, data.w, data.h));
+
+  img.style.position = 'absolute';
+  img.style.left = `${x}px`;
+  img.style.top = `${y}px`;
+
+  placedImages.push({x: x + data.w/2, y: y + data.h/2, w: data.w, h: data.h});
+  gallery.appendChild(img);
+}
+
+// Main
+(async function init() {
+  const count = 20;
+  const selected = [];
+  for (let i = 0; i < count; i++) {
+    selected.push(images[i % images.length]);
+  }
+
+  const loaded = await preloadImages(selected);
+
+  // Calculer hauteur totale estimée
+  const totalHeight = loaded.reduce((sum, img) => sum + img.h, 0);
+  const containerHeight = totalHeight + 1000;
+  gallery.style.height = `${containerHeight}px`;
+
+  // Placer les images
+  loaded.forEach(imgData => placeImage(imgData, containerHeight));
+})();
+</script>
+</body>
+</html>
