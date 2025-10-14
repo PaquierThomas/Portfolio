@@ -9,21 +9,21 @@ This project serves as both a **personal showcase** and a **creative statement**
 
 ## 🎬 Demo Videos
 
-![Landing](./read_me/landing.gif)
-<br>
+![Landing](./public/read_me/landing.gif)
+<br/>
 
-![Projects](./read_me/projects.gif)
-<br>
+![Projects](./public/read_me/projects.gif)
+<br/>
 
-![Article](./read_me/article.gif)
+![Article](./public/read_me/article.gif)
 
----
+<br/>
 
+![Contact](./public/read_me/contact.png)
+![Contact White](./public/read_me/contact_white.png)
 
-![Contact](./read_me/contact.png)  
-![Contact_White](./read_me/contact_white.png)  
 
 ---
 
 ### 🖥️ Live Demo  
-👉 [Visit the Portfolio](thomaspaquier.fr)
+👉 [Visit the Portfolio](https://thomaspaquier.fr)
