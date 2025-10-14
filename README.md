@@ -7,11 +7,6 @@ This project serves as both a **personal showcase** and a **creative statement**
 
 ---
 
-## 🧠 About  
- 
-It merges visual storytelling, technical precision, and minimal design principles to create an engaging first impression.
-
-
 ## 🎬 Demo Videos
 
 ![Landing](./read_me/landing.gif)
