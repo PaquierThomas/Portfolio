@@ -1,5 +1,5 @@
-import { type CollectionEntry, getCollection } from 'astro:content'
-import type { Project } from '../../content/config'
+import { getCollection } from 'astro:content'
+export type { Project } from './type'
 
 export const listProjects = async () => {
   return (await getCollection('projects')).sort(

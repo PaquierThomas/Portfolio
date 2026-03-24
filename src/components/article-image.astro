@@ -1,43 +1,43 @@
 ---
-import '../styles/global.css'
-import type { Project } from '../content/config'
+import '../styles/global.css';
+import type { Project } from '../content.config';
 
 type Props = {
-  images: Project['images']
-}
-const { src, caption } = Astro.props
+  images: Project['images'];
+};
+const { src, caption } = Astro.props;
 ---
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('img[data-enlargable]').forEach(function (img) {
-      img.classList.add('img-enlargable')
-      let isInFullScreen = false
+      img.classList.add('img-enlargable');
+      let isInFullScreen = false;
 
       const handleMouseEnter = function () {
         if (!isInFullScreen) {
-          img.style.outline = '2px solid var(--v2-secondary)'
-          img.style.transition = 'transform 0.3s ease'
-          img.style.cursor = 'pointer'
-          img.style.transform = 'scale(1.03)'
+          img.style.outline = '2px solid var(--v2-secondary)';
+          img.style.transition = 'transform 0.3s ease';
+          img.style.cursor = 'pointer';
+          img.style.transform = 'scale(1.03)';
         }
-      }
+      };
 
       const handleMouseLeave = function () {
         if (!isInFullScreen) {
-          img.style.outline = 'none'
-          img.style.transform = 'scale(1)'
+          img.style.outline = 'none';
+          img.style.transform = 'scale(1)';
         }
-      }
+      };
 
       const handleClick = function () {
-        img.removeEventListener('mouseenter', handleMouseEnter)
-        img.removeEventListener('mouseleave', handleMouseLeave)
+        img.removeEventListener('mouseenter', handleMouseEnter);
+        img.removeEventListener('mouseleave', handleMouseLeave);
 
-        var src = img.getAttribute('src')
-        var alt = img.getAttribute('alt')
+        var src = img.getAttribute('src');
+        var alt = img.getAttribute('alt');
 
-        var enlargedImage = document.createElement('div')
+        var enlargedImage = document.createElement('div');
         enlargedImage.style.cssText = `
           background: RGBA(0,0,0,.5) url(${src}) no-repeat center;
           background-size: contain;
@@ -50,46 +50,71 @@ const { src, caption } = Astro.props
           cursor: zoom-out;
           opacity: 0;
           transition: opacity 0.5s ease; /* Transition pour l'entrée et la sortie */
-        `
+        `;
 
         enlargedImage.addEventListener('click', function () {
-          document.body.removeChild(enlargedImage)
-          document.body.style.overflow = 'visible' // Réactiver l'overflow
-          isInFullScreen = false
-          img.addEventListener('mouseenter', handleMouseEnter)
-          img.addEventListener('mouseleave', handleMouseLeave)
-        })
+          document.body.removeChild(enlargedImage);
+          document.body.style.overflow = 'visible'; // Réactiver l'overflow
+          isInFullScreen = false;
+          img.addEventListener('mouseenter', handleMouseEnter);
+          img.addEventListener('mouseleave', handleMouseLeave);
+        });
 
-        document.body.appendChild(enlargedImage)
-        document.body.style.overflow = 'hidden' // Bloquer l'overflow
+        document.body.appendChild(enlargedImage);
+        document.body.style.overflow = 'hidden'; // Bloquer l'overflow
 
         if (!isInFullScreen) {
           setTimeout(() => {
-            enlargedImage.style.opacity = '1'
-          }, 10)
+            enlargedImage.style.opacity = '1';
+          }, 10);
 
-          isInFullScreen = true
+          isInFullScreen = true;
         }
-      }
+      };
 
-      img.addEventListener('click', handleClick)
-      img.addEventListener('mouseenter', handleMouseEnter)
-      img.addEventListener('mouseleave', handleMouseLeave)
-    })
-  })
+      img.addEventListener('click', handleClick);
+      img.addEventListener('mouseenter', handleMouseEnter);
+      img.addEventListener('mouseleave', handleMouseLeave);
+    });
+  });
 </script>
 
-<img data-enlargable src={src} alt={caption} draggable='false' />
-<p class='legend'>{caption}</p>
+<img data-enlargable src={src} alt={caption} draggable="false" />
+<p class="legend">{caption}</p>
 
 <style scoped>
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
   .legend {
     display: flex;
     justify-content: center;
     color: var(--v2-secondary);
     opacity: 0.7;
     margin-top: -50px;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: capitalize;
+  }
+
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
+
+  @media only screen and (max-width: 768px) {
+    .legend {
+      margin-top: -30px;
+      font-size: 13px;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
+
+  @media only screen and (max-width: 390px) {
+    .legend {
+      margin-top: -20px;
+      font-size: 12px;
+    }
   }
 </style>

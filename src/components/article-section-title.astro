@@ -1,41 +1,35 @@
 ---
-import '../styles/global.css'
-import type { Project } from '../content/config'
+import '../styles/global.css';
+import type { Project } from '../content.config';
 
 type Props = {
-  sectionTitle: Project['sectionTitle']
-}
-const { title, shortDescription } = Astro.props
+  sectionTitle: Project['sectionTitle'];
+};
+const { title, shortDescription } = Astro.props;
 ---
 
-<div class='text-right'>
-  <h2 class='h3-title'>{title}</h2>
-  <p class='h2-subheading cd small'>
+<div class="text-right">
+  <h2 class="h3-title">{title}</h2>
+  <p class="h2-subheading cd small">
     {shortDescription}
   </p>
 </div>
 
 <style scoped>
   .text-right {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     width: 600px;
-    max-width: 1220px;
+    max-width: 100%;
     margin: 0 auto;
     padding-top: 0px;
     padding-bottom: 0px;
     color: var(--v2-secondary);
-
     flex-direction: column;
-
     justify-content: center;
-
     align-items: flex-start;
-
     align-self: flex-start;
   }
+
   .h3-title {
     margin-top: 0px;
     padding-bottom: 10px;
@@ -44,7 +38,9 @@ const { title, shortDescription } = Astro.props
     font-family: Recoleta, Georgia, sans-serif;
     font-size: 62px;
     line-height: 1.1;
+    margin-bottom: 0;
   }
+
   .h2-subheading {
     line-height: 1.6;
     letter-spacing: 0.2px;
@@ -66,7 +62,54 @@ const { title, shortDescription } = Astro.props
     padding-right: 30px;
     font-weight: 100;
     align-self: flex-start;
-
     flex: 1;
+  }
+
+  /* ─── TABLET (≤1599px) ───────────────────────────── */
+
+  @media only screen and (max-width: 1599px) {
+    .h3-title {
+      font-size: 52px;
+    }
+
+    .h2-subheading.cd {
+      font-size: 17px;
+    }
+  }
+
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
+
+  @media only screen and (max-width: 768px) {
+    .text-right {
+      width: 100%;
+    }
+
+    .h3-title {
+      font-size: 36px;
+      line-height: 1.15;
+      padding-bottom: 8px;
+    }
+
+    .h2-subheading.cd {
+      font-size: 15px;
+      padding-right: 0;
+    }
+
+    .h2-subheading.cd.small {
+      padding-right: 0;
+      padding-top: 8px;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
+
+  @media only screen and (max-width: 390px) {
+    .h3-title {
+      font-size: 30px;
+    }
+
+    .h2-subheading.cd {
+      font-size: 14px;
+    }
   }
 </style>

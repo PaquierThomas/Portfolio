@@ -1,0 +1,10 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(8 8) scale(0.75)">
+    <path
+      d="M39.33333,5.5 32,18.33333 24.666667,5.5 H0 L32,61 64,5.5 Z"
+      fill="#f0efef"/>
+    <path
+      d="M39.33333,5.5 32,18.33333 24.666667,5.5 H12.833333 L32,38.83333 51.16667,5.5 Z"
+      fill="#c6c3c3"/>
+  </g>
+</svg>

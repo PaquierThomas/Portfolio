@@ -1,14 +1,14 @@
 ---
-import '../styles/global.css'
-import myPlus from '../../public/plus_icon.png'
-import myCheck from '../../public/check_icon.png'
-import type { Project } from '../content/config'
+import '../styles/global.css';
+import myPlus from '../../public/plus_icon.png';
+import myCheck from '../../public/check_icon.png';
+import type { Project } from '../content.config';
 
 type Props = {
-  procons: Project['procons']
-}
+  procons: Project['procons'];
+};
 
-const props = Astro.props
+const props = Astro.props;
 ---
 
 <div>
@@ -16,12 +16,12 @@ const props = Astro.props
   {
     props.procons.map((procon: any, index: number) => (
       <div>
-        <div class='section_row'>
-          <div class='section_row_title'>
+        <div class="section_row">
+          <div class="section_row_title">
             <h3>{procon.title}</h3>
             <img src={procon.image} alt="icone d'un plus" />
           </div>
-          <div class='section_row_description'>
+          <div class="section_row_description">
             {procon.list?.map((text: string) => (
               <li>{text}</li>
             ))}
@@ -37,28 +37,25 @@ const props = Astro.props
 </div>
 
 <style scoped>
-  /* body {
-    background: #181a1b;
-  } */
-
   .section_row {
     display: flex;
     flex-direction: row;
     gap: 50px;
     margin: 30px 0;
+    padding: 0 5px;
   }
+
   .section_row_title {
     display: flex;
     flex-direction: column;
     gap: 40px;
-
     min-width: 275px;
-
     font-size: 50px;
     font-weight: bold;
     line-height: 60px;
     letter-spacing: normal;
   }
+
   .section_row_title img {
     width: 60px;
     height: 60px;
@@ -70,14 +67,87 @@ const props = Astro.props
     padding-top: 10px;
     list-style: unset;
   }
+
   .section_row_description {
     padding-left: 10px;
     padding-top: 5px;
     font-size: 19px;
     line-height: 40px;
+    list-style-position: inside;
   }
 
   hr.solid {
     border-top: 1px #383d40;
+  }
+
+  /* ─── TABLET (≤1599px) ───────────────────────────── */
+
+  @media only screen and (max-width: 1599px) {
+    .section_row_title {
+      min-width: 220px;
+      font-size: 40px;
+      line-height: 50px;
+    }
+
+    .section_row_description {
+      font-size: 17px;
+      line-height: 36px;
+    }
+  }
+
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
+
+  @media only screen and (max-width: 768px) {
+    .section_row {
+      flex-direction: column;
+      gap: 20px;
+      margin: 24px 0;
+    }
+
+    .section_row_title {
+      min-width: unset;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .section_row_title img {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .section_row_description {
+      padding-left: 0;
+      padding-top: 0;
+      font-size: 15px;
+      line-height: 30px;
+    }
+
+    .section_row_list {
+      font-size: 15px;
+      line-height: 30px;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
+
+  @media only screen and (max-width: 390px) {
+    .section_row_title {
+      font-size: 24px;
+    }
+
+    .section_row_title img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .section_row_description {
+      font-size: 15px;
+      line-height: 28px;
+    }
   }
 </style>

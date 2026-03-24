@@ -1,99 +1,264 @@
 ---
-import { listProjects } from '../entities/project/api'
-import BaseLayout from '../layouts/base-layout.astro'
-import '../styles/global.css'
+import { listProjects } from '../entities/project/api';
+import BaseLayout from '../layouts/base-layout.astro';
+import '../styles/global.css';
 
-const projects = await listProjects()
+const projects = await listProjects();
 
-const previous = projects.at(-1)!.data
-const current = projects.at(0)!
-const next = projects.at(1)!.data
+const projectsJson = JSON.stringify(
+  projects.map((p) => ({
+    slug: p.id.replace(/\.mdx?$/, ''),
+    data: {
+      title: p.data.title,
+      title2: p.data.title2,
+      imageCouverture: p.data.imageCouverture,
+    },
+  }))
+);
+
+const previous = projects.at(-1)!.data;
+const current = projects.at(0)!;
+const next = projects.at(1)!.data;
 ---
 
 <BaseLayout
-  title='Projets'
+  title="Projets"
   description="Bienvenue dans ma galerie de projets ! En tant qu'étudiant en 3D à Besançon. Explorez mon univers artistique et laissez-vous séduire par mes réalisations"
 >
-  <section class='projets'>
-    <div class='nav'>
-      <div class='nav-content'>
-        <div class='top-left'>
-          <a href='/'>
+  <section class="projets">
+    <div class="nav">
+      <div class="nav-content">
+        <div class="top-left">
+          <a href="/">
             <h3>THOMAS</h3>
             <h3>PAQUIER</h3>
           </a>
         </div>
-        <div class='top-right'>
-          <a href='#'>Drawing</a>
-          <a href='/contact'>Contact</a>
+        <div class="top-right">
+          <a href="#">Drawing</a>
+          <a href="/contact">Contact</a>
         </div>
         <div><h3>3D Modeler</h3> <h3>Web Developper</h3></div>
         <div>@Thomas.Paquier</div>
       </div>
     </div>
-    <div class='previous-project'>
-      <div class='titles'>
-        <h2 class='last'>
+
+    <div class="previous-project">
+      <div class="titles">
+        <h2 class="last">
           <div>{previous.title}</div>
           <div>{previous.title2}</div>
         </h2>
       </div>
     </div>
-    <div class='projet'>
-      <div class='wrapper'>
+
+    <div class="projet">
+      <div class="wrapper">
         <a
-          href={`/projects/${current.slug}`}
-          class='links titles current-titles'
-          draggable='false'
+          href={`/projects/${current.id.replace(/\.mdx?$/, '')}`}
+          class="links titles current-titles"
+          draggable="false"
         >
-          <h2 class='first'>
+          <h2 class="first">
             <div>{current.data.title}</div>
             <div>{current.data.title2}</div>
           </h2>
-          <h2 class='last'>
+          <h2 class="last">
             <div>{current.data.title}</div>
             <div>{current.data.title2}</div>
           </h2>
         </a>
+
         <a
-          href={`/projects/${current.slug}`}
-          aria-label='lien vers le projet actuel'
-          class='links image'
-          draggable='false'
+          href={`/projects/${current.id.replace(/\.mdx?$/, '')}`}
+          aria-label="lien vers le projet actuel"
+          class="links image"
+          draggable="false"
         >
-          <div class='images'>
+          <div class="images">
             <img
-              id='image'
+              id="image"
               src={current.data.imageCouverture}
-              alt='image du projet'
+              alt="image du projet"
             />
-            <div class='layer'></div>
+            <div class="layer"></div>
           </div>
         </a>
       </div>
     </div>
-    <div class='index'>
-      <span id='project-index'>01</span><span
-        style='font-weight: 400; font-size: 1.2vw'>&#10187;</span
-      ><span class='project-total'
+
+    <div class="index">
+      <span id="project-index">01</span><span
+        style="font-weight: 400; font-size: 1.2vw">&#10187;</span
+      ><span class="project-total"
         >{projects.length < 10 ? `0${projects.length}` : projects.length}</span
       >
     </div>
-    <div class='next-project'>
-      <div class='titles'>
-        <h2 class='last'>
+
+    <div class="next-project">
+      <div class="titles">
+        <h2 class="last">
           <div>{next.title}</div>
           <div>{next.title2}</div>
         </h2>
       </div>
     </div>
+
+    <div class="mobile-hint">
+      <span>Swipe to navigate</span>
+    </div>
   </section>
 </BaseLayout>
+
+<script define:vars={{ projectsJson }}>
+  const projects = JSON.parse(projectsJson);
+
+  const preloadImage = (url) => {
+    const img = new Image();
+    img.src = url;
+  };
+  projects.forEach((project) => preloadImage(project.data.imageCouverture));
+
+  let current = 0;
+  let dernierAppel = 0;
+  let enAttente = false;
+
+  let touchStartY = 0;
+  let touchStartX = 0;
+
+  function fonctionAuScroll(deltaY) {
+    const maintenant = Date.now();
+
+    if (!enAttente && maintenant - dernierAppel >= 1000) {
+      const section = document.querySelector('.projets');
+      section.classList.remove('stop');
+      section.classList.add('start');
+
+      if (deltaY > 0) {
+        section.classList.remove('down');
+        section.classList.add('up');
+        if (current === projects.length - 1) {
+          current = 0;
+        } else {
+          current++;
+        }
+      } else {
+        section.classList.remove('up');
+        section.classList.add('down');
+        if (current === 0) {
+          current = projects.length - 1;
+        } else {
+          current--;
+        }
+      }
+
+      const first = document.querySelector('.projet .titles .first');
+      first.children[0].innerHTML = projects.at(current)?.data.title || '';
+      first.children[1].innerHTML = projects.at(current)?.data.title2 || '';
+
+      const last = document.querySelector('.projet .titles .last');
+      last.children[0].innerHTML = projects.at(current)?.data.title || '';
+      last.children[1].innerHTML = projects.at(current)?.data.title2 || '';
+
+      const image = document.querySelector('.projet #image');
+      setTimeout(() => {
+        image.src = projects.at(current)?.data.imageCouverture || '';
+      }, 400);
+
+      const index = document.querySelector('#project-index');
+      index.innerHTML =
+        current < 10 ? `0${current + 1}` : (current + 1).toString();
+
+      const previous = document.querySelector(
+        '.previous-project .titles .last'
+      );
+      if (previous) {
+        previous.children[0].innerHTML =
+          projects.at(current - 1)?.data.title || '';
+        previous.children[1].innerHTML =
+          projects.at(current - 1)?.data.title2 || '';
+      }
+
+      const next = document.querySelector('.next-project .titles .last');
+      if (next) {
+        const nextIndex = current === projects.length - 1 ? 0 : current + 1;
+        next.children[0].innerHTML = projects.at(nextIndex)?.data.title || '';
+        next.children[1].innerHTML = projects.at(nextIndex)?.data.title2 || '';
+      }
+
+      document.querySelectorAll('.links').forEach((link) => {
+        link.href = `/projects/${projects.at(current)?.slug}`;
+      });
+
+      dernierAppel = maintenant;
+      enAttente = true;
+      setTimeout(() => {
+        section.classList.remove('start');
+        section.classList.add('stop');
+        enAttente = false;
+      }, 1500);
+    }
+  }
+
+  window.addEventListener('wheel', (event) => {
+    fonctionAuScroll(event.deltaY);
+  });
+
+  window.addEventListener(
+    'touchstart',
+    (event) => {
+      touchStartY = event.touches[0].clientY;
+      touchStartX = event.touches[0].clientX;
+    },
+    { passive: true }
+  );
+
+  window.addEventListener(
+    'touchend',
+    (event) => {
+      const deltaY = touchStartY - event.changedTouches[0].clientY;
+      const deltaX = touchStartX - event.changedTouches[0].clientX;
+      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 40) {
+        fonctionAuScroll(deltaY);
+      }
+    },
+    { passive: true }
+  );
+
+  const currentTitles = document.querySelector('.current-titles');
+  const imageLink = document.querySelector('.image');
+
+  function addHover() {
+    const previous = document.querySelector('.previous-project');
+    const next = document.querySelector('.next-project');
+    const titles = document.querySelectorAll('h2');
+    const img = document.querySelector('.image');
+    titles.forEach((title) => title.classList.add('active'));
+    img.classList.add('active');
+    if (previous) previous.classList.add('hide');
+    if (next) next.classList.add('hide');
+  }
+
+  function removeHover() {
+    const previous = document.querySelector('.previous-project');
+    const next = document.querySelector('.next-project');
+    const titles = document.querySelectorAll('h2');
+    const img = document.querySelector('.image');
+    titles.forEach((title) => title.classList.remove('active'));
+    img.classList.remove('active');
+    if (previous) previous.classList.remove('hide');
+    if (next) next.classList.remove('hide');
+  }
+
+  currentTitles.addEventListener('mouseover', addHover);
+  currentTitles.addEventListener('mouseout', removeHover);
+  imageLink.addEventListener('mouseover', addHover);
+  imageLink.addEventListener('mouseout', removeHover);
+</script>
 
 <style>
   * {
     box-sizing: border-box;
-
     user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -108,6 +273,31 @@ const next = projects.at(1)!.data
     margin: 0;
   }
 
+  /* ─── THEME BUTTON: bottom-right on all screen sizes ── */
+  :global(#theme-switch) {
+    bottom: 30px; /* ← desktop: distance from bottom */
+    right: 30px; /* ← desktop: distance from right */
+    left: auto;
+    top: auto;
+    height: 52px;
+    width: 52px;
+    padding: 10px;
+  }
+
+  @media (max-width: 768px) {
+    :global(#theme-switch) {
+      bottom: 20px; /* ← mobile: distance from bottom */
+      right: 20px; /* ← mobile: distance from right */
+      left: auto;
+      top: auto;
+      height: 40px;
+      width: 40px;
+      padding: 8px;
+    }
+  }
+
+  /* ─── NAV ─────────────────────────────────────────── */
+
   .top-left:hover a {
     filter: drop-shadow(0 0 20px var(--v2-primary-hover));
   }
@@ -118,10 +308,10 @@ const next = projects.at(1)!.data
     left: 0;
     width: 100%;
     height: 100%;
-
     padding: 120px 160px;
-
     background-color: transparent;
+    z-index: 100;
+    pointer-events: none;
   }
 
   .nav-content {
@@ -131,22 +321,27 @@ const next = projects.at(1)!.data
     font-family: aktiv-grotesk, sans-serif;
     font-weight: 600;
     text-transform: uppercase;
-    a {
-      text-decoration: none;
-      color: var(--v2-secondary);
-    }
+    pointer-events: none;
   }
+  .nav-content a,
+  .nav-content a:visited {
+    text-decoration: none;
+    color: var(--v2-secondary);
+    pointer-events: all;
+  }
+
   .nav-content div:first-child {
     position: absolute;
     top: 0;
     left: 0;
-    a > h3 {
-      font-size: 14px;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      letter-spacing: 5px;
-    }
+  }
+  .nav-content div:first-child a > h3 {
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    letter-spacing: 5px;
+    margin: 0;
   }
   .nav-content div:nth-child(3) {
     position: absolute;
@@ -172,13 +367,23 @@ const next = projects.at(1)!.data
     justify-content: flex-end;
   }
 
+  /* ─── LAYOUT ──────────────────────────────────────── */
+
+  .projets {
+    height: 100vh;
+    background-color: var(--v2-primary);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ─── DESKTOP: previous / next ───────────────────── */
+
   .previous-project {
     width: 68%;
     margin: 0 auto;
     transform: translateY(calc(-307px / 4.8));
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
-
   .previous-project.hide {
     transform: translateY(-270px);
     opacity: 0;
@@ -190,17 +395,12 @@ const next = projects.at(1)!.data
     transform: translateY(calc(-307px / 1.27));
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
-
   .next-project.hide {
     transform: translateY(-70px);
     opacity: 0;
   }
 
-  .projets {
-    height: 100vh;
-    background-color: var(--v2-primary);
-    overflow: hidden;
-  }
+  /* ─── PROJET WRAPPER ─────────────────────────────── */
 
   .projet {
     width: 68%;
@@ -219,9 +419,10 @@ const next = projects.at(1)!.data
     align-items: center;
   }
 
+  /* ─── TITLES ─────────────────────────────────────── */
+
   .titles {
     font-family: 'aktiv-grotesk-extended';
-    /* letter-spacing: 4px; */
     text-transform: uppercase;
     position: relative;
   }
@@ -232,11 +433,6 @@ const next = projects.at(1)!.data
     color: var(--v2-secondary);
     font-style: normal;
     line-height: 100%;
-    /* transform-origin: 100% 50%; */
-  }
-  .images {
-    position: relative;
-    height: 100%;
   }
 
   .previous-project .titles h2.last,
@@ -244,35 +440,18 @@ const next = projects.at(1)!.data
     -webkit-text-stroke: 1px var(--v2-secondary);
   }
 
-  .content-left {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
+  /* ─── IMAGE ──────────────────────────────────────── */
 
-  .index {
-    font-family: 'aktiv-grotesk';
-    position: absolute;
-    bottom: 0;
-    font-size: 1.7vw;
-    color: var(--v2-secondary);
-    font-weight: 600;
-    top: 68.5%;
-    left: 16.4%;
-  }
-  .index .project-total {
-    font-size: 0.9vw;
+  .images {
+    position: relative;
+    height: 100%;
   }
 
   .image {
     position: fixed;
     left: 40%;
-    /* Modifier taille d'image dans projects carrousel */
     width: 1029px;
     height: 643px;
-
-    /* right: 0; */
   }
   .image img {
     width: 100%;
@@ -281,11 +460,7 @@ const next = projects.at(1)!.data
   }
 
   .layer {
-    /* transition: all 0.85s cubic-bezier(0.165, 0.84, 0.44, 1); */
-    /* content: ''; */
     background: rgba(var(--layer-color), 1);
-    /* background: rgb(162, 116, 210); */
-    padding-bottom: -20px;
     opacity: 0.6;
     width: 100%;
     height: 100%;
@@ -297,6 +472,23 @@ const next = projects.at(1)!.data
   .image.active::after {
     background: none;
   }
+
+  /* ─── INDEX ──────────────────────────────────────── */
+
+  .index {
+    font-family: 'aktiv-grotesk';
+    position: absolute;
+    font-size: 1.7vw;
+    color: var(--v2-secondary);
+    font-weight: 600;
+    top: 68.5%;
+    left: 16.4%;
+  }
+  .index .project-total {
+    font-size: 0.9vw;
+  }
+
+  /* ─── TRANSITIONS ────────────────────────────────── */
 
   .wrapper h2 {
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -310,11 +502,9 @@ const next = projects.at(1)!.data
   }
 
   .wrapper h2.active {
-    /* font-size: 7vw; */
     transform: scale(1.15);
     transition: 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
-
   .wrapper .image.active img,
   .wrapper .image.active::after,
   .wrapper .image.active .layer {
@@ -325,24 +515,23 @@ const next = projects.at(1)!.data
     opacity: 0;
   }
 
+  /* ─── ANIMATIONS ─────────────────────────────────── */
+
   .start.up .last,
   .start.up .first {
     animation:
       0.4s fade,
       0.4s slideDown;
   }
-
   .start .images {
     animation: 0.8s skewImage ease-in;
   }
-
   .start.down .last,
   .start.down .first {
     animation:
       0.4s fade,
       0.4s slideUp;
   }
-
   .stop {
     animation: none;
   }
@@ -355,7 +544,6 @@ const next = projects.at(1)!.data
       opacity: 1;
     }
   }
-
   @keyframes slideDown {
     from {
       transform: translateY(200%);
@@ -364,7 +552,6 @@ const next = projects.at(1)!.data
       transform: translateY(0);
     }
   }
-
   @keyframes slideUp {
     from {
       transform: translateY(-200%);
@@ -373,7 +560,6 @@ const next = projects.at(1)!.data
       transform: translateY(0);
     }
   }
-
   @keyframes skewImage {
     from {
       transform: translateX(0);
@@ -388,14 +574,10 @@ const next = projects.at(1)!.data
       transform: translateX(0);
     }
   }
-  /* lancer anim 2 sur image2 quand anim1 sur image1 est fini */
 
   .titles h2.first {
     opacity: 1;
-    /* animation: 5s; */
-    /* transform: translateY(0); */
   }
-
   .titles h2.last {
     color: transparent;
     -webkit-text-stroke: 2px var(--v2-secondary);
@@ -404,8 +586,15 @@ const next = projects.at(1)!.data
     top: 0;
     opacity: 1;
     animation: 0.2s;
-    /* transform: translateY(175%); */
   }
+
+  /* ─── MOBILE HINT ────────────────────────────────── */
+
+  .mobile-hint {
+    display: none;
+  }
+
+  /* ─── TABLET (≤1599px) ───────────────────────────── */
 
   @media only screen and (max-width: 1599px) {
     .nav {
@@ -423,168 +612,262 @@ const next = projects.at(1)!.data
       font-size: 2vw;
     }
   }
-</style>
 
-<script>
-  import { listProjects } from '../entities/project/api'
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
 
-  const projects = await listProjects()
+  @media only screen and (max-width: 768px) {
+    .nav {
+      padding: 28px 24px;
+      height: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+    }
 
-  const preloadImage = (url: string) => {
-    const img = new Image()
-    img.src = url
-  }
+    .nav-content {
+      position: static;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+    }
 
-  projects.forEach((project) => preloadImage(project.data.imageCouverture))
+    .nav-content div:first-child,
+    .nav-content div:nth-child(2),
+    .nav-content div:nth-child(3),
+    .nav-content div:last-child {
+      position: static;
+    }
 
-  let current = 0
+    .nav-content div:nth-child(3),
+    .nav-content div:last-child {
+      display: none;
+    }
 
-  document.onwheel = async (event) => {}
-  let dernierAppel = 0
-  let enAttente = false
+    .nav-content div:first-child {
+      pointer-events: all;
+    }
+    .nav-content div:first-child a > h3 {
+      font-size: 11px;
+      letter-spacing: 3px;
+      line-height: 1.4;
+      margin: 0;
+    }
 
-  function fonctionAuScroll(deltaY: number) {
-    const maintenant = Date.now()
+    .nav-content div:nth-child(2) {
+      flex-direction: row;
+      gap: 18px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      align-items: flex-start;
+      pointer-events: all;
+    }
 
-    if (!enAttente && maintenant - dernierAppel >= 1000) {
-      // Mettre ici le code de votre fonction à exécuter lors du défilement de la molette
-      const section = document.querySelector('.projets')!
-      section.classList.remove('stop')
-      section.classList.add('start')
+    /*
+     * .projets is the flex column on mobile.
+     * Order of direct children: previous(1) → projet(2) → index(3) → next(4)
+     *
+     * To adjust spacing:
+     *   gap below previous title  →  .previous-project { margin-bottom }
+     *   gap above index           →  .index { margin-top }
+     *   gap above next title      →  .next-project { margin-top }
+     */
+    .projets {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      overflow: hidden;
+      position: relative;
+    }
 
-      // section.classList.toggle(deltaY > 0 ? 'down' : 'up')
+    /* ── 1. Previous ghost title ── */
+    .previous-project {
+      display: block !important;
+      order: 1;
+      width: 100%;
+      margin: 0;
+      padding: 0 24px;
+      transform: none;
+      opacity: 0.35; /* ← ghost opacity */
+      flex-shrink: 0;
+      margin-bottom: 150px; /* ← gap between prev title and image */
+    }
+    .previous-project .titles h2 {
+      font-size: 8vw; /* ← ghost title size */
+      line-height: 1;
+      -webkit-text-stroke: 1px var(--v2-secondary);
+      color: transparent;
+    }
+    .previous-project.hide {
+      opacity: 0;
+      transform: none;
+    }
 
-      if (deltaY > 0) {
-        console.log('down', current)
-        section.classList.remove('down')
-        section.classList.add('up')
-        if (current === projects.length - 1) {
-          current = 0
-        } else {
-          current++
-        }
-      } else {
-        section.classList.remove('up')
-        section.classList.add('down')
-        console.log('up', current)
-        if (current === 0) {
-          current = projects.length - 1
-        } else {
-          current--
-        }
+    /* ── 2. Current project (image + title) ── */
+    .projet {
+      order: 2;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .wrapper {
+      width: 100%;
+      height: auto;
+      position: static;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    /* Image on top */
+    .image {
+      position: static;
+      width: 100%;
+      height: 257px; /* ← image height */
+      z-index: 1;
+      order: 1;
+    }
+    .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Title below image */
+    .current-titles {
+      position: relative; /* ← do not remove — needed for h2.last stacking */
+      order: 2;
+      width: 100%;
+      padding: 10px 24px 0; /* ← padding-top: gap between image and title */
+      text-decoration: none;
+      display: block;
+    }
+
+    .titles h2 {
+      font-size: 10vw; /* ← current title size */
+      line-height: 1;
+    }
+
+    /* Both h2s stacked on top of each other */
+    .titles h2.last {
+      position: absolute; /* ← do not change */
+      top: 10px; /* ← must equal padding-top of .current-titles */
+      left: 24px; /* ← must equal padding-left of .current-titles */
+      -webkit-text-stroke: 1.5px var(--v2-secondary);
+    }
+
+    /* ── 3. Index ── */
+    .index {
+      order: 3;
+      position: static;
+      padding: 0 24px;
+      margin-top: 10px; /* ← gap above index */
+      top: auto;
+      left: auto;
+      font-size: 4.5vw;
+      z-index: 20;
+    }
+    .index .project-total {
+      font-size: 3.5vw;
+    }
+    .index span[style] {
+      font-size: 3.5vw !important;
+    }
+
+    /* ── 4. Next ghost title ── */
+    .next-project {
+      display: block !important;
+      order: 4;
+      width: 100%;
+      margin: 0;
+      padding: 0 24px;
+      transform: none;
+      opacity: 0.35; /* ← ghost opacity, keep in sync with previous */
+      flex-shrink: 0;
+      margin-top: 80px; /* ← gap between index and next title */
+    }
+    .next-project .titles h2 {
+      font-size: 8vw; /* ← keep in sync with previous ghost size */
+      line-height: 1;
+      -webkit-text-stroke: 1px var(--v2-secondary);
+      color: transparent;
+    }
+    .next-project.hide {
+      opacity: 0;
+      transform: none;
+    }
+
+    /* Swipe hint */
+    .mobile-hint {
+      display: block;
+      order: 5;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      font-family: aktiv-grotesk, sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--v2-secondary);
+      opacity: 0.35;
+      white-space: nowrap;
+    }
+
+    .wrapper h2.active {
+      transform: none;
+    }
+    .wrapper .image.active img,
+    .wrapper .image.active .layer {
+      transform: none;
+    }
+
+    @keyframes skewImage {
+      from {
+        transform: translateX(0);
       }
-
-      // Current
-      const first = document.querySelector(
-        '.projet .titles .first',
-      ) as HTMLDivElement
-      first.children[0].innerHTML = projects.at(current)?.data.title || ''
-      first.children[1].innerHTML = projects.at(current)?.data.title2 || ''
-
-      const last = document.querySelector(
-        '.projet .titles .last',
-      ) as HTMLDivElement
-      last.children[0].innerHTML = projects.at(current)?.data.title || ''
-      last.children[1].innerHTML = projects.at(current)?.data.title2 || ''
-
-      const image = document.querySelector('.projet #image') as HTMLImageElement
-      setTimeout(() => {
-        image.src = projects.at(current)?.data.imageCouverture || ''
-      }, 400)
-
-      const index = document.querySelector('#project-index') as HTMLSpanElement
-      index.innerHTML =
-        current < 10 ? `0${current + 1}` : (current + 1).toString()
-
-      // Previous
-      const previous = document.querySelector(
-        '.previous-project .titles .last',
-      ) as HTMLDivElement
-      previous.children[0].innerHTML =
-        projects.at(current - 1)?.data.title || ''
-      previous.children[1].innerHTML =
-        projects.at(current - 1)?.data.title2 || ''
-
-      // Next
-      const next = document.querySelector(
-        '.next-project .titles .last',
-      ) as HTMLDivElement
-      const nextIndex = current === projects.length - 1 ? 0 : current + 1
-      next.children[0].innerHTML = projects.at(nextIndex)?.data.title || ''
-      next.children[1].innerHTML = projects.at(nextIndex)?.data.title2 || ''
-
-      document.querySelectorAll('.links').forEach((link: any) => {
-        link.href = `/projects/${projects.at(current)?.slug}`
-      })
-
-      // Mettre à jour le temps du dernier appel
-      dernierAppel = maintenant
-
-      // Mettre en attente pendant 5 secondes avant le prochain appel
-      enAttente = true
-      setTimeout(() => {
-        section.classList.remove('start')
-        section.classList.add('stop')
-        enAttente = false
-      }, 1500)
-    } else {
-      console.log('Veuillez patienter avant le prochain appel.')
+      40%,
+      70% {
+        opacity: 0;
+        transform: translateX(60px) skew(-5deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
   }
 
-  // Ajouter un gestionnaire d'événements pour le défilement de la molette (wheel)
-  window.addEventListener('wheel', (event) => {
-    fonctionAuScroll(event.deltaY)
-  })
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
 
-  const currentTitles = document.querySelector(
-    '.current-titles',
-  ) as HTMLHeadingElement
-  const image = document.querySelector('.image') as HTMLImageElement
-
-  currentTitles.addEventListener('mouseover', () => {
-    const previous = document.querySelector('.previous-project')!
-    const next = document.querySelector('.next-project')!
-    const titles = document.querySelectorAll('h2')
-    const img = document.querySelector('.image')!
-
-    titles.forEach((title) => title.classList.add('active'))
-    img.classList.add('active')
-    previous.classList.add('hide')
-    next.classList.add('hide')
-  })
-  image.addEventListener('mouseover', () => {
-    const previous = document.querySelector('.previous-project')!
-    const next = document.querySelector('.next-project')!
-    const titles = document.querySelectorAll('h2')
-    const img = document.querySelector('.image')!
-
-    titles.forEach((title) => title.classList.add('active'))
-    img.classList.add('active')
-    previous.classList.add('hide')
-    next.classList.add('hide')
-  })
-
-  currentTitles.addEventListener('mouseout', () => {
-    const previous = document.querySelector('.previous-project')!
-    const next = document.querySelector('.next-project')!
-    const titles = document.querySelectorAll('h2')
-    const img = document.querySelector('.image')!
-
-    titles.forEach((title) => title.classList.remove('active'))
-    img.classList.remove('active')
-    previous.classList.remove('hide')
-    next.classList.remove('hide')
-  })
-  image.addEventListener('mouseout', () => {
-    const previous = document.querySelector('.previous-project')!
-    const next = document.querySelector('.next-project')!
-    const titles = document.querySelectorAll('h2')
-    const img = document.querySelector('.image')!
-
-    titles.forEach((title) => title.classList.remove('active'))
-    img.classList.remove('active')
-    previous.classList.remove('hide')
-    next.classList.remove('hide')
-  })
-</script>
+  @media only screen and (max-width: 390px) {
+    .titles h2 {
+      font-size: 12vw;
+    }
+    .nav-content div:first-child a > h3 {
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+    .nav-content div:nth-child(2) {
+      font-size: 10px;
+      gap: 14px;
+    }
+    .index {
+      font-size: 4vw;
+    }
+    .index .project-total {
+      font-size: 3vw;
+    }
+  }
+</style>

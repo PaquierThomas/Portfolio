@@ -1,104 +1,113 @@
 ---
-import BaseLayout from '../layouts/base-layout.astro'
-import '../styles/global.css'
-import Instagram from '../../public/icons/instagram.astro'
-import Mail from '../../public/icons/mail.astro'
-import Artstation from '../../public/icons/artstation.astro'
-import Phone from '../../public/icons/phone.astro'
-import Nav from '../components/nav.astro'
+import '../styles/global.css';
+import Instagram from '../../public/icons/instagram.astro';
+import Mail from '../../public/icons/mail.astro';
+import Artstation from '../../public/icons/artstation.astro';
+import Phone from '../../public/icons/phone.astro';
+import Nav from '../components/nav.astro';
+import BaseLayout from '../layouts/base-layout.astro';
 ---
 
 <BaseLayout
-  description='Étudiant passionné par la 3D, je suis basé à Besançon où je crée des univers uniques grâce à mes compétences en modélisation et animation.'
+  description="Étudiant passionné par la 3D, je suis basé à Besançon où je crée des univers uniques grâce à mes compétences en modélisation et animation."
 >
   <Nav />
-  <div class='wrapper'>
-    <div class='photo'></div>
-    <div class='content'>
-      <div class='text'>
-        <div class='left'>
-          <div class='introduction'>
+  <div class="wrapper">
+    <div class="photo"></div>
+    <div class="content">
+      <div class="text">
+        <div class="left">
+          <div class="introduction">
             <h1>Hello!</h1>
             <p>
-              My name is Thomas Paquier. My strengths are Visual Development,
-              environment and lighting. I love creating and storytelling. I look
-              forward to contributing my creativity and skills to innovative
-              projects.
+              I'm Thomas Paquier, a full-stack developer with a strong eye for
+              detail and a passion for crafting rich, interactive experiences. I
+              love bringing interfaces to life through storytelling and
+              creativity.
             </p>
-
-            <!-- Changer texte du haut avant merge -->
             <p>Hope you enjoy my portfolio!</p>
           </div>
-          <div class='education'>
+          <div class="education">
             <h2>education</h2>
-            <div class='about-card'>
+            <div class="about-card">
               <h3>2020 - 2024: BUT Métiers du Multimédia et de l'Internet</h3>
               <p>Graduated with a major in Multimedia Design</p>
             </div>
           </div>
         </div>
-        <div class='right'>
-          <div class='skills'>
+        <div class="right">
+          <div class="skills">
             <h2>skills</h2>
-            <div class='skills-row'>
-              <div class='logo'>
-                <img src='/icons/blender.svg' alt='' />
+            <div class="skills-row">
+              <div class="logo">
+                <img src="/icons/contact/astro.svg" alt="" />
               </div>
-              <div class='logo'>
-                <img src='/icons/substance-painter.svg' alt='' />
+              <div class="logo">
+                <img src="/icons/contact/vuejs.svg" alt="" />
               </div>
-              <div class='logo'>
-                <img src='/icons/adobe-photoshop.svg' alt='' />
+              <div class="logo">
+                <img src="/icons/contact/payload.svg" alt="" />
               </div>
             </div>
-            <div class='skills-row'>
-              <div class='logo'>
-                <img src='/icons/unreal-engine.svg' alt='' />
+            <div class="skills-row">
+              <div class="logo">
+                <img src="/icons/contact/solidjs.svg" alt="" />
               </div>
-              <div class='logo'>
-                <img src='/icons/davinci.svg' alt='' />
+              <div class="logo">
+                <img src="/icons/contact/strapi.svg" alt="" />
               </div>
-              <div class='logo'><img src='/icons/3ds-max.svg' alt='' /></div>
+              <div class="logo">
+                <img src="/icons/contact/react.svg" alt="" />
+              </div>
             </div>
           </div>
-          <div class='experience'>
+          <div class="experience">
             <h2>experience</h2>
-            <div class='about-card'>
+            <div class="about-card">
               <h3>February 2024 - June 2024</h3>
               <p>Freelance at the academy de Besançon</p>
             </div>
-            <div class='about-card'>
+            <div class="about-card">
               <h3>Mars 2023 - June 2023</h3>
               <p>Front-end developper at VISIPERF</p>
             </div>
           </div>
         </div>
       </div>
-      <div class='bottom'>
-        <div class='contact'>
-          <Phone class='rectangle' />
-          <h3><a href='tel:+33783798945'>07 83 79 89 45</a></h3>
+      <div class="bottom">
+        <div class="contact">
+          <Phone class="rectangle" />
+          <h3><a href="tel:+33783798945">07 83 79 89 45</a></h3>
         </div>
-        <div class='contact'>
-          <Mail class='rectangle' />
+        <div class="contact">
+          <Mail class="rectangle" />
           <h3>
-            <a href='mailto:thomas.paquier.pro@gmail.com'
+            <a href="mailto:thomas.paquier.pro@gmail.com"
               >thomas.paquier.pro@gmail.com</a
             >
           </h3>
         </div>
-        <div class='contact'>
-          <Artstation class='rectangle' />
+        <div class="contact">
+          <svg
+            class="rectangle"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+            ></path>
+          </svg>
           <h3>
-            <a href='https://www.artstation.com/thomas_paquier' target='_blank'
-              >thomas_paquier</a
+            <a href="https://github.com/PaquierThomas" target="_blank"
+              >PaquierThomas</a
             >
           </h3>
         </div>
-        <div class='contact'>
-          <Instagram class='rectangle' />
+        <div class="contact">
+          <Instagram class="rectangle" />
           <h3>
-            <a href='https://www.instagram.com/thomas_paquier' target='_blank'
+            <a href="https://www.instagram.com/thomas_paquier" target="_blank"
               >@thomas_paquier</a
             >
           </h3>
@@ -108,25 +117,27 @@ import Nav from '../components/nav.astro'
   </div>
 
   <style scoped>
-    html,
-    body {
-      height: 100%; /* Ensure html and body take up the full height */
-      margin: 0; /* Remove default margin */
-      padding: 0; /* Remove any default padding */
-      overflow: hidden; /* Prevents scrolling if content overflows */
+    /* ─── THEME BUTTON: bottom-right on all screen sizes ── */
+    :global(#theme-switch) {
+      bottom: 30px; /* ← desktop: distance from bottom */
+      right: 30px; /* ← desktop: distance from right */
+      left: auto;
+      top: auto;
+      height: 52px;
+      width: 52px;
+      padding: 10px;
     }
 
-    body {
-      /* background-image: url('/public/about.png'); */
-      background-size: cover; /* Ensures the image covers the entire page */
-      background-repeat: no-repeat; /* Prevents the image from repeating */
-      background-position: center; /* Centers the image */
-      font-family: 'Gilroy', sans-serif;
-      background-color: var(--v2-primary);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--v2-secondary);
+    @media (max-width: 768px) {
+      :global(#theme-switch) {
+        bottom: 20px; /* ← mobile: distance from bottom */
+        right: 20px; /* ← mobile: distance from right */
+        left: auto;
+        top: auto;
+        height: 40px;
+        width: 40px;
+        padding: 8px;
+      }
     }
     a {
       color: var(--v2-secondary);
@@ -141,7 +152,7 @@ import Nav from '../components/nav.astro'
     h3 {
       font-family: 'Gilroy', sans-serif;
       font-weight: 900;
-      color: var(--v2-tertiary); /* tertiary in night mode*/
+      color: var(--v2-tertiary);
       line-height: 1;
     }
     h2 {
@@ -165,25 +176,34 @@ import Nav from '../components/nav.astro'
       color: var(--v2-secondary);
     }
 
+    /* ══════════════════════════════════════════
+       DESKTOP (≥ 1200px)
+    ══════════════════════════════════════════ */
     .wrapper {
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
       gap: 5.5%;
-      height: 80%;
+      height: 100dvh; /* ← au lieu de 85% */
+      width: 100%; /* ← ajoute ça */
       padding-left: 155px;
       padding-right: 115px;
       padding-top: 50px;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .photo {
       background-image: url('/photo_tp.webp');
-      background-size: cover; /* Ensures the image covers the entire page */
-      background-repeat: no-repeat; /* Prevents the image from repeating */
-      background-position: center; /* Centers the image */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
       width: 700px;
+      flex-shrink: 0;
       height: 95%;
+      max-height: 975px;
+      max-width: 625px;
       border-radius: 80px;
       margin-top: 15px;
     }
@@ -192,52 +212,52 @@ import Nav from '../components/nav.astro'
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      overflow: hidden;
     }
 
     .text {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-
       padding-top: 13px;
     }
+
     .introduction {
       display: flex;
       flex-direction: column;
       width: 98%;
       margin-bottom: 80px;
-
-      h1 {
-        color: var(--v2-tertiary);
-        font-size: 166px;
-        line-height: 1;
-        margin-bottom: 72px;
-      }
-      p:first-of-type {
-        /* color: var(--v2-secondary); */
-        margin-bottom: 45px;
-      }
+    }
+    .introduction h1 {
+      color: var(--v2-tertiary);
+      font-size: 166px;
+      line-height: 1;
+      margin-bottom: 72px;
+      margin-top: 0;
+    }
+    .introduction p:first-of-type {
+      margin-bottom: 45px;
     }
 
     .education {
       display: flex;
       flex-direction: column;
       width: 100%;
-
-      p {
-        letter-spacing: 1px;
-      }
     }
+    .education p {
+      letter-spacing: 1px;
+    }
+
     .skills {
       display: flex;
       flex-direction: column;
       width: 100%;
       gap: 10px;
-
-      h2 {
-        margin-top: 8px;
-      }
     }
+    .skills h2 {
+      margin-top: 8px;
+    }
+
     .skills-row {
       display: flex;
       flex-direction: row;
@@ -263,19 +283,17 @@ import Nav from '../components/nav.astro'
     .skills-row:nth-of-type(1) .logo:nth-of-type(3) img {
       width: 60px;
     }
-
     .skills-row:last-of-type {
       margin-bottom: 100px;
     }
 
-    .experience {
-      h3 {
-        margin-bottom: 15px;
-      }
-      p {
-        margin-bottom: 50px;
-      }
+    .experience h3 {
+      margin-bottom: 15px;
     }
+    .experience p {
+      margin-bottom: 50px;
+    }
+
     .left {
       flex-grow: 1;
       max-width: 850px;
@@ -291,32 +309,267 @@ import Nav from '../components/nav.astro'
       gap: 70px;
       margin-top: 30px;
       z-index: 1000;
+    }
+    .bottom .contact {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .bottom .rectangle {
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      margin-right: 10px;
+      fill: var(--v2-tertiary);
+      flex-shrink: 0;
+    }
+    .bottom h3 {
+      font-weight: 400;
+      font-size: 22px;
+      margin: 0;
+    }
 
-      .contact {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+    .about-card h3 {
+      color: var(--v2-quaternary);
+    }
+
+    /* ══════════════════════════════════════════
+       TABLET (768px – 1199px)
+    ══════════════════════════════════════════ */
+    @media only screen and (min-width: 768px) and (max-width: 1199px) {
+      .wrapper {
+        flex-direction: column;
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+        padding: 100px 48px 60px;
+        gap: 40px;
+        align-items: flex-start;
       }
 
-      .rectangle {
-        width: 30px;
-        height: 30px;
-        border-radius: 5px;
-        margin-right: 10px;
-
-        fill: var(--v2-tertiary);
+      .photo {
+        width: 100%;
+        height: 380px;
+        border-radius: 40px;
+        margin-top: 0;
       }
 
-      h3 {
-        font-weight: 400;
-        font-size: 22px;
-        margin: 0;
+      .content {
+        width: 100%;
+      }
+
+      .text {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .introduction h1 {
+        font-size: clamp(80px, 12vw, 130px);
+        margin-bottom: 40px;
+      }
+
+      .introduction {
+        margin-bottom: 50px;
+      }
+
+      h2 {
+        font-size: clamp(40px, 6vw, 60px);
+        margin-bottom: 30px;
+      }
+
+      .left {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 50px;
+      }
+
+      .right {
+        width: 100%;
+      }
+
+      .skills-row > .logo {
+        width: 90px;
+        height: 90px;
+      }
+      .logo img {
+        width: 55px;
+      }
+      .skills-row:nth-of-type(1) .logo:nth-of-type(2) img {
+        width: 80px;
+      }
+      .skills-row:last-of-type {
+        margin-bottom: 60px;
+      }
+
+      .bottom {
+        flex-wrap: wrap;
+        gap: 24px 40px;
+        margin-top: 20px;
+      }
+      .bottom h3 {
+        font-size: 18px;
       }
     }
 
-    .about-card {
+    /* ══════════════════════════════════════════
+       MOBILE (< 768px)
+    ══════════════════════════════════════════ */
+    @media only screen and (max-width: 767px) {
+      .wrapper {
+        flex-direction: column;
+        height: auto;
+        min-height: 100dvh;
+        overflow-y: auto;
+        padding: 90px 24px 80px;
+        gap: 32px;
+        align-items: flex-start;
+        box-sizing: border-box;
+      }
+
+      .photo {
+        width: 100%;
+        height: 280px;
+        border-radius: 28px;
+        margin-top: 0;
+        flex-shrink: 0;
+      }
+
+      .content {
+        width: 100%;
+      }
+
+      .text {
+        flex-direction: column;
+        gap: 0;
+        padding-top: 0;
+      }
+
+      .introduction {
+        margin-bottom: 40px;
+      }
+      .introduction h1 {
+        font-size: clamp(64px, 18vw, 100px);
+        margin-bottom: 28px;
+        margin-top: 0;
+      }
+      .introduction p {
+        font-size: 17px;
+      }
+      .introduction p:first-of-type {
+        margin-bottom: 24px;
+      }
+
+      h2 {
+        font-size: clamp(32px, 9vw, 52px);
+        margin-bottom: 24px;
+        margin-top: 0;
+      }
+
       h3 {
-        color: var(--v2-quaternary);
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .left {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 40px;
+      }
+
+      .right {
+        width: 100%;
+      }
+
+      .education p {
+        font-size: 15px;
+      }
+
+      .skills-row {
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .skills-row > .logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 14px;
+      }
+      .logo img {
+        width: 42px;
+      }
+      .skills-row:nth-of-type(1) .logo:nth-of-type(2) img {
+        width: 60px;
+        padding-top: 3px;
+      }
+      .skills-row:nth-of-type(1) .logo:nth-of-type(3) img {
+        width: 38px;
+      }
+      .skills-row:last-of-type {
+        margin-bottom: 40px;
+      }
+
+      .experience h3 {
+        margin-bottom: 8px;
+      }
+      .experience p {
+        margin-bottom: 30px;
+        font-size: 15px;
+      }
+
+      .bottom {
+        flex-direction: column;
+        gap: 18px;
+        margin-top: 12px;
+      }
+      .bottom .contact {
+        align-items: center;
+      }
+      .bottom .rectangle {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+      }
+      .bottom h3 {
+        font-size: 16px;
+        margin: 0;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       SMALL MOBILE (≤ 390px)
+    ══════════════════════════════════════════ */
+    @media only screen and (max-width: 390px) {
+      .wrapper {
+        padding: 80px 18px 60px;
+      }
+
+      .introduction h1 {
+        font-size: 58px;
+      }
+
+      h2 {
+        font-size: 28px;
+      }
+
+      .skills-row > .logo {
+        width: 62px;
+        height: 62px;
+      }
+      .logo img {
+        width: 36px;
+      }
+      .skills-row:nth-of-type(1) .logo:nth-of-type(2) img {
+        width: 52px;
+      }
+
+      .bottom h3 {
+        font-size: 14px;
       }
     }
   </style>

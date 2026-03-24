@@ -1,0 +1,207 @@
+---
+import type { Project } from '../content.config';
+
+type Props = Pick<
+  Project,
+  'subject' | 'summary' | 'client' | 'annee' | 'roles'
+>;
+
+const { subject, summary, client, annee, roles } = Astro.props;
+---
+
+<section class="about-project">
+  <div class="text-left">
+    <h1 class="project-title">{subject}</h1>
+    <p class="project-description">{summary}</p>
+  </div>
+  <aside class="text-right">
+    <dl class="meta-list">
+      {
+        client && (
+          <div class="meta-item">
+            <dt class="meta-label">Client</dt>
+            <dd class="meta-value">{client}</dd>
+          </div>
+        )
+      }
+      {
+        annee && (
+          <div class="meta-item">
+            <dt class="meta-label">Year</dt>
+            <dd class="meta-value">
+              {annee.debut}
+              {annee.fin ? ` – ${annee.fin}` : ''}
+            </dd>
+          </div>
+        )
+      }
+      {
+        roles && roles.length > 0 && (
+          <div class="meta-item">
+            <dt class="meta-label">Role</dt>
+            <dd class="meta-value">{roles.join(', ')}</dd>
+          </div>
+        )
+      }
+    </dl>
+  </aside>
+</section>
+
+<style>
+  .about-project {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: clamp(3rem, 6vw, 8rem);
+    max-width: 960px;
+    padding-bottom: 50px;
+    margin: 0 auto;
+    z-index: 0;
+  }
+
+  .text-left {
+    flex: 1 1 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .project-title {
+    margin: 0;
+    font-family: aktiv-grotesk-extended, sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--v2-secondary);
+    letter-spacing: -0.01em;
+  }
+
+  .project-description {
+    margin: 0;
+    font-family: Proximanova, sans-serif;
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--v2-secondary);
+    opacity: 0.95;
+    max-width: 95%;
+  }
+
+  .text-right {
+    flex: 0 0 auto;
+    min-width: 200px;
+    padding-top: 0.25rem;
+  }
+
+  .meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .meta-label {
+    font-family: Proximanova, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--v2-primary-hover);
+    margin: 0;
+  }
+
+  .meta-value {
+    font-family: Proximanova, sans-serif;
+    font-size: 1.1rem;
+    width: 250px;
+    font-weight: 300;
+    color: var(--v2-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ─── TABLET (≤1599px) ───────────────────────────── */
+
+  @media only screen and (max-width: 1599px) {
+    .about-project {
+      max-width: 900px;
+    }
+  }
+
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
+
+  @media only screen and (max-width: 768px) {
+    .about-project {
+      flex-direction: column;
+      gap: 2.5rem;
+      padding-bottom: 32px;
+      max-width: 100%;
+    }
+
+    .text-left {
+      flex: none;
+      width: 100%;
+    }
+
+    .project-title {
+      font-size: clamp(1.8rem, 8vw, 2.8rem);
+    }
+
+    .project-description {
+      font-size: 0.95rem;
+      max-width: 100%;
+    }
+
+    .text-right {
+      width: 100%;
+      min-width: unset;
+      padding-top: 0;
+    }
+
+    .meta-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.5rem;
+    }
+
+    .meta-value {
+      width: auto;
+      font-size: 1rem;
+    }
+
+    .meta-label {
+      font-size: 1.1rem;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
+
+  @media only screen and (max-width: 390px) {
+    .project-title {
+      font-size: clamp(1.6rem, 9vw, 2.2rem);
+    }
+
+    .meta-list {
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .meta-label {
+      font-size: 1rem;
+    }
+
+    .meta-value {
+      font-size: 0.95rem;
+    }
+  }
+</style>

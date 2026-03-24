@@ -1,26 +1,50 @@
 ---
-import '../styles/global.css'
-import type { Project } from '../content/config'
+import '../styles/global.css';
+import type { Project } from '../content.config';
 
 type Props = {
-  videos: Project['videos']
-}
+  videos: Project['videos'];
+};
 
-const { src, caption } = Astro.props
+const { src, caption } = Astro.props;
 ---
 
 <video controls autoplay loop muted>
-  <source src={src} type='video/mp4' />
+  <source src={src} type="video/mp4" />
 </video>
-<p class='legend'>{caption}</p>
+<p class="legend">{caption}</p>
 
 <style scoped>
+  video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
   .legend {
     display: flex;
     justify-content: center;
     color: var(--v2-secondary);
     margin-top: -50px;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: capitalize;
+  }
+
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
+
+  @media only screen and (max-width: 768px) {
+    .legend {
+      margin-top: -30px;
+      font-size: 13px;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
+
+  @media only screen and (max-width: 390px) {
+    .legend {
+      margin-top: -20px;
+      font-size: 12px;
+    }
   }
 </style>

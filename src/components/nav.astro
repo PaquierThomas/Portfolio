@@ -1,18 +1,17 @@
-<div class='nav'>
-  <div class='nav-content'>
-    <div class='top-left'>
-      <a href='/'>
+<div class="nav">
+  <div class="nav-content">
+    <div class="top-left">
+      <a href="/">
         <h3>THOMAS</h3>
         <h3>PAQUIER</h3>
       </a>
     </div>
-    <div class='top-right'>
-      <a href='/projects#'>Projects</a>
-      <a href='#'>Drawing</a>
+    <div class="top-right">
+      <a href="/projects#">Projects</a>
+      <a href="#">Drawing</a>
     </div>
   </div>
 </div>
-
 <style scoped>
   .nav {
     position: fixed;
@@ -20,42 +19,49 @@
     left: 0;
     width: 100%;
     height: 100%;
-
     padding: 120px 160px;
     background-color: transparent;
     z-index: 100;
+    pointer-events: none;
+    box-sizing: border-box;
   }
   .nav-content {
     position: relative;
-    height: 80%;
-    width: 90%;
+    width: 100%;
+    height: auto;
     color: var(--v2-secondary);
     font-family: aktiv-grotesk, sans-serif;
     font-weight: 600;
     text-transform: uppercase;
-    a {
-      text-decoration: none;
-      color: var(--v2-secondary);
-    }
-    a:hover {
-      color: var(--v2-primary-hover);
-      filter: drop-shadow(0 0 20px var(--v2-primary-hover));
-    }
+    pointer-events: none;
   }
-  .nav-content div:first-child {
+  .nav-content a {
+    text-decoration: none;
+    color: var(--v2-secondary);
+    pointer-events: all;
+  }
+  .nav-content a:hover {
+    color: var(--v2-primary-hover);
+    filter: drop-shadow(0 0 20px var(--v2-primary-hover));
+  }
+
+  .top-left {
     position: absolute;
     top: 0;
     left: 0;
-    a > h3 {
-      font-size: 14px;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      letter-spacing: 5px;
-      z-index: 100;
-    }
   }
-  .nav-content div:nth-child(2) {
+  .top-left a > h3 {
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    letter-spacing: 5px;
+    z-index: 100;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .top-right {
     position: absolute;
     top: 0;
     right: 0;
@@ -67,12 +73,64 @@
     justify-content: flex-end;
   }
 
-  .nav-content div:nth-child(3) {
-    position: absolute;
-    bottom: -30px;
-    left: 0;
-    font-size: 14px;
-    letter-spacing: 1.4px;
-    /* text-transform: none; */
+  /* ─── TABLET (≤1199px) ───────────────────────────── */
+  @media only screen and (max-width: 1199px) {
+    .nav {
+      padding: 40px 48px;
+    }
+  }
+
+  /* ─── MOBILE (≤768px) ────────────────────────────── */
+  @media only screen and (max-width: 768px) {
+    .nav {
+      padding: 28px 24px;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .top-left,
+    .top-right {
+      position: static;
+    }
+
+    .top-left {
+      pointer-events: all;
+    }
+
+    .top-left a > h3 {
+      font-size: 11px;
+      letter-spacing: 3px;
+      display: block;
+    }
+
+    .top-right {
+      flex-direction: row;
+      gap: 18px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      align-items: flex-start;
+      pointer-events: all;
+    }
+  }
+
+  /* ─── SMALL MOBILE (≤390px) ──────────────────────── */
+  @media only screen and (max-width: 390px) {
+    .nav {
+      padding: 20px 18px;
+    }
+
+    .top-left a > h3 {
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .top-right {
+      font-size: 10px;
+      gap: 14px;
+    }
   }
 </style>
