@@ -1,11 +1,11 @@
-import { getCollection } from 'astro:content'
-export type { Project } from './type'
+import { getCollection } from 'astro:content';
+export type { Project } from './type';
 
 export const listProjects = async () => {
   return (await getCollection('projects')).sort(
-    (a, b) => a.data.date_parution.getTime() - b.data.date_parution.getTime(),
-  )
-}
+    (a, b) => b.data.date_parution.getTime() - a.data.date_parution.getTime()
+  );
+};
 
 // export const findProjectByDatePuration =
 //   (date_parution: Project['date_parution']) =>
