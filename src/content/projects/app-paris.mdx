@@ -1,0 +1,73 @@
+---
+title: PARIS
+title2: ENTRE AMIS
+imageCouverture: '/image-article/paris-entre-amis/dashboard.webp'
+client: Personal Project
+slug: 'paris-entre-amis'
+date_parution: 2026-07-26
+roles:
+  - Full-Stack Developer
+  - Backend Developer
+  - Database Design
+annee: { debut: 'june 2026', fin: 'july 2026' }
+subject: 'A full-stack sports betting application with automated data synchronization'
+summary: 'Paris Entre Amis is a full-stack web application designed to manage friendly sports bets through a shared dashboard. Built with Nuxt 3, FastAPI, and PostgreSQL, it combines automated sports data collection, persistent storage, and bet tracking in a containerized environment.'
+---
+
+import ArticleImage from '../../components/article-image.astro';
+import ArticleShortTextBlock from '../../components/article-short-text-block.astro';
+import ArticleProsCons from '../../components/article-pros-cons.astro';
+
+<ArticleShortTextBlock
+  title={{
+    highlightTitle: 'Project ',
+    secondPartTitle: 'overview',
+  }}
+  summary="Paris Entre Amis is a personal project built around a simple idea: make it easy to create and track sports bets between friends. The application brings together upcoming matches, live scores, predictions, and bet results in a single dashboard. Rather than focusing solely on the interface, the project explores the architecture behind a complete, data-driven web application."
+/>
+
+<ArticleImage
+  src="/image-article/paris-entre-amis/dashboard.webp"
+  alt="Paris Entre Amis sports betting application dashboard"
+  caption="Main dashboard — matches, predictions, and bet tracking"
+/>
+
+<ArticleShortTextBlock
+  title={{
+    highlightTitle: 'Automated ',
+    secondPartTitle: 'sports data pipeline',
+  }}
+  summary="A key part of the project was building an automated data collection pipeline. A Python script retrieves match information, scores, statuses, and upcoming fixtures from TheSportsDB API, then stores the data in PostgreSQL. The process runs automatically through Docker on a three-minute interval, keeping the local database regularly synchronized with the external source."
+/>
+
+<ArticleShortTextBlock
+  title={{
+    highlightTitle: 'A structured ',
+    secondPartTitle: 'backend architecture',
+  }}
+  summary="The backend is built with FastAPI and SQLAlchemy, with PostgreSQL and TimescaleDB providing the data storage environment. Alembic handles database schema migrations, allowing changes to be versioned and applied in a controlled way. The REST API exposes endpoints to retrieve matches, submit bets, access betting history, and settle completed matches. Pydantic validates incoming data, while Scalar provides interactive API documentation for testing and exploring the available endpoints."
+/>
+
+<ArticleShortTextBlock
+  title={{
+    highlightTitle: 'Connecting ',
+    secondPartTitle: 'data and interface',
+  }}
+  summary="The frontend is developed with Nuxt 3 and Vue.js. It communicates with the FastAPI backend to display match cards, collect predictions, and present the history of registered bets. Visual statuses distinguish ongoing matches from completed ones, while color-coded results make it easier to identify winning and losing bets. A dedicated action triggers the settlement process, retrieving final scores and updating the associated bet outcomes."
+/>
+
+<ArticleShortTextBlock
+  title={{
+    highlightTitle: 'Containerization ',
+    secondPartTitle: 'and persistence',
+  }}
+  summary="Docker brings the application services together in a reproducible environment, simplifying setup and execution. Database migrations and persistent PostgreSQL storage ensure that the schema can evolve without relying on destructive table recreation, while recorded matches and bets remain available after services restart."
+/>
+
+<ArticleShortTextBlock
+  title={{
+    highlightTitle: 'What I ',
+    secondPartTitle: 'learned',
+  }}
+  summary="This project allowed me to work across the entire stack, from external API integration and scheduled data collection to relational database design, REST API development, and frontend integration. It also helped me better understand how independent services communicate, how to manage data consistency, and how to structure a maintainable application around continuously updated information."
+/>
